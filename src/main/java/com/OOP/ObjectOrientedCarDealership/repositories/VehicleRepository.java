@@ -51,21 +51,7 @@ public class VehicleRepository {
                 ResultSet rs = ps.executeQuery()
         ) {
             while (rs.next()) {
-                int vehicleId = rs.getInt("vehicle_id");
-                String VIN = rs.getString("VIN");
-                boolean sold = rs.getBoolean("sold");
-                String color = rs.getString("color");
-                boolean electric = rs.getBoolean("electric");
-                int miles = rs.getInt("miles");
-                int doors = rs.getInt("doors");
-                boolean convertible = rs.getBoolean("convertible");
-                String make = rs.getString("make");
-                String model = rs.getString("model");
-                int year = rs.getInt("year");
-                float price = rs.getFloat("price");
-                String vehicleType = rs.getString("vehicle_type");
-                vehicles.add(new Vehicle(vehicleId, VIN, sold, color, electric, miles,
-                        doors, convertible, make, model, year, price, vehicleType));
+                vehicles.add(mapToVehicle(rs));
             }
 
         } catch (SQLException e) {
@@ -73,5 +59,29 @@ public class VehicleRepository {
         }
 
         return vehicles;
+    }
+
+    Vehicle mapToVehicle(ResultSet rs) {
+        Vehicle newVehicle = new Vehicle();
+        try {
+            int vehicleId = rs.getInt("vehicle_id");
+            String VIN = rs.getString("VIN");
+            boolean sold = rs.getBoolean("sold");
+            String color = rs.getString("color");
+            boolean electric = rs.getBoolean("electric");
+            int miles = rs.getInt("miles");
+            int doors = rs.getInt("doors");
+            boolean convertible = rs.getBoolean("convertible");
+            String make = rs.getString("make");
+            String model = rs.getString("model");
+            int year = rs.getInt("year");
+            float price = rs.getFloat("price");
+            String vehicleType = rs.getString("vehicle_type");
+            newVehicle =  new Vehicle(vehicleId, VIN, sold, color, electric, miles,
+                    doors, convertible, make, model, year, price, vehicleType);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return newVehicle;
     }
 }
